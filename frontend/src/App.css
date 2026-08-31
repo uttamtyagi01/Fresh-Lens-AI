@@ -1,0 +1,242 @@
+@import "tailwindcss";
+
+:root {
+  font-family: Inter, system-ui, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #f8fafc;
+}
+/* ================================
+   SCAN PAGE
+================================ */
+
+.scan-page {
+  min-height: 100vh;
+  padding: 140px 7% 80px;
+  background:
+    radial-gradient(circle at 50% 10%, rgba(48, 220, 145, 0.12), transparent 35%),
+    #050807;
+  color: white;
+}
+
+.scan-header {
+  max-width: 760px;
+  margin: 0 auto 55px;
+  text-align: center;
+}
+
+.scan-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border: 1px solid rgba(75, 235, 165, 0.35);
+  border-radius: 50px;
+  color: #55e8a5;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  margin-bottom: 22px;
+}
+
+.scan-header h1 {
+  font-size: clamp(42px, 6vw, 72px);
+  line-height: 1;
+  margin: 0 0 20px;
+}
+
+.scan-header h1 span {
+  color: #4ee5a0;
+}
+
+.scan-header p {
+  color: #9ca9a4;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.upload-box {
+  max-width: 850px;
+  min-height: 430px;
+  margin: auto;
+  border: 1px dashed rgba(80, 230, 160, 0.4);
+  border-radius: 28px;
+  background: rgba(15, 25, 21, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 45px;
+  transition: 0.3s ease;
+}
+
+.upload-box:hover {
+  border-color: #4ee5a0;
+  background: rgba(20, 35, 28, 0.85);
+}
+
+.upload-icon {
+  width: 75px;
+  height: 75px;
+  margin: auto auto 25px;
+  border-radius: 22px;
+  background: rgba(78, 229, 160, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4ee5a0;
+  font-size: 38px;
+}
+
+.upload-box h2 {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.upload-box p {
+  color: #929d98;
+  line-height: 1.7;
+}
+
+.upload-btn,
+.analyze-btn {
+  border: none;
+  border-radius: 12px;
+  padding: 14px 26px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.upload-btn {
+  margin-top: 18px;
+  background: #4ee5a0;
+  color: #03120b;
+}
+
+.supported {
+  margin-top: 20px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: #66716c;
+}
+
+/* IMAGE PREVIEW */
+
+.preview-container {
+  width: 100%;
+}
+
+.image-wrapper {
+  width: min(100%, 520px);
+  height: 270px;
+  margin: auto;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #020403;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.file-info {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.file-info strong {
+  font-size: 16px;
+}
+
+.file-info span {
+  color: #6f7b75;
+  font-size: 13px;
+}
+
+.scan-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 25px;
+}
+
+.secondary-btn {
+  padding: 13px 22px;
+  border-radius: 10px;
+  border: 1px solid #37443e;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+}
+
+.analyze-btn {
+  background: #4ee5a0;
+  color: #03120b;
+}
+
+/* INFO CARDS */
+
+.scan-info {
+  max-width: 850px;
+  margin: 35px auto 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.scan-info > div {
+  padding: 20px;
+  border: 1px solid #1d2924;
+  border-radius: 16px;
+  background: rgba(13, 20, 17, 0.7);
+  display: flex;
+  gap: 14px;
+}
+
+.scan-info span {
+  color: #4ee5a0;
+  font-size: 20px;
+}
+
+.scan-info strong {
+  font-size: 14px;
+}
+
+.scan-info p {
+  margin: 5px 0 0;
+  color: #69746f;
+  font-size: 12px;
+}
+
+@media (max-width: 700px) {
+  .scan-page {
+    padding: 120px 5% 60px;
+  }
+
+  .scan-info {
+    grid-template-columns: 1fr;
+  }
+
+  .upload-box {
+    padding: 25px;
+  }
+
+  .scan-actions {
+    flex-direction: column;
+  }
+}
