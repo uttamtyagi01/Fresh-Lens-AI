@@ -1,0 +1,36 @@
+{
+  "model": "XGBoost",
+  "model_scope": "Universal shelf-life regression with learned food prior and freshness signals.",
+  "feature_columns": [
+    "freshness_score",
+    "freshness_confidence",
+    "spoilage_probability",
+    "food_prior_days"
+  ],
+  "target": "remaining_shelf_life_days",
+  "target_definition": "Midpoint of the approximate shelf-life range encoded in the AgriFreshNET Processed Data folder label.",
+  "dataset_rows": 14160,
+  "train_rows": 11294,
+  "test_rows": 2866,
+  "unique_groups_total": 5188,
+  "unique_groups_train": 4150,
+  "unique_groups_test": 1038,
+  "food_types_total": 8,
+  "food_types": [
+    "Banana",
+    "Bittermelon",
+    "Cucumber",
+    "Eggplant",
+    "Orange",
+    "Papaya",
+    "Pineapple",
+    "Tomato"
+  ],
+  "food_prior_default": 10.47976801841686,
+  "metrics": {
+    "mae_days": 4.765186749279125,
+    "rmse_days": 6.3946182571549635,
+    "r2": 0.4496838945486903
+  },
+  "training_seconds": 3.05
+}

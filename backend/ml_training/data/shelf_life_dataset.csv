@@ -1,0 +1,2 @@
+food_type,freshness_score,spoilage_probability,temperature_c,humidity_percent,storage_method,food_age_days,historical_avg_temp_c,historical_avg_humidity_percent,storage_changes_24h,remaining_shelf_life_days
+APPLE-001,2026-09-19,Apple,11.52,73.08,,,room_temperature,0,,,,,

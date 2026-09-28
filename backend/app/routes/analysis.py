@@ -2,12 +2,15 @@ from __future__ import annotations
 
 import io
 import json
+from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any, Optional
 
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 from PIL import Image, UnidentifiedImageError
 
 from app.services.analyzer import analyze_food
+from app.database import UPLOAD_DIR, save_scan
 
 
 router = APIRouter(
@@ -253,6 +256,159 @@ async def analyze(
             status_code=500,
             detail="Food analysis failed. Please try another image.",
         ) from exc
+
+    # ========================================================
+    # RESPONSE
+    # ========================================================
+        # ========================================================
+    # SAVE ANALYSIS TO HISTORICAL DATABASE
+    # ========================================================
+
+    try:
+        timestamp = datetime.now(
+            timezone.utc
+        ).isoformat()
+
+        original_filename = (
+            image.filename
+            or "uploaded_image.jpg"
+        )
+
+        extension = (
+            Path(original_filename).suffix
+            or ".jpg"
+        )
+
+        history_filename = (
+            f"scan_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}"
+            f"{extension}"
+        )
+
+        saved_image_path = (
+            UPLOAD_DIR / history_filename
+        )
+
+        saved_image_path.write_bytes(
+            contents
+        )
+
+        # --------------------------------------------
+        # Shelf-life value for database
+        # --------------------------------------------
+
+        shelf_data = result.get(
+            "estimated_shelf_life_days"
+        )
+
+        predicted_shelf_life = None
+
+        if isinstance(shelf_data, dict):
+            minimum = shelf_data.get("min")
+            maximum = shelf_data.get("max")
+
+            if (
+                isinstance(minimum, (int, float))
+                and isinstance(maximum, (int, float))
+            ):
+                predicted_shelf_life = (
+                    float(minimum) + float(maximum)
+                ) / 2.0
+
+            elif isinstance(
+                minimum,
+                (int, float),
+            ):
+                predicted_shelf_life = float(minimum)
+
+        elif isinstance(
+            shelf_data,
+            (int, float),
+        ):
+            predicted_shelf_life = float(
+                shelf_data
+            )
+
+        # --------------------------------------------
+        # Save scan
+        # --------------------------------------------
+
+        history_id = save_scan(
+            food_name=(
+                result.get("food_class")
+                or result.get("food_name")
+                or "Unknown"
+            ),
+
+            freshness_status=(
+                result.get(
+                    "freshness_status"
+                )
+            ),
+
+            freshness_score=(
+                result.get(
+                    "freshness_score"
+                )
+            ),
+
+            confidence=(
+                result.get(
+                    "confidence"
+                )
+            ),
+
+            spoilage_probability=(
+                result.get(
+                    "spoilage_probability"
+                )
+            ),
+
+            temperature=(
+                parsed_temperature
+            ),
+
+            humidity=(
+                parsed_humidity
+            ),
+
+            storage_method=(
+                parsed_storage
+            ),
+
+            food_age_days=round(
+                parsed_age_hours / 24.0,
+                2,
+            ),
+
+            predicted_shelf_life=(
+                predicted_shelf_life
+            ),
+
+            recommendation=(
+                result.get(
+                    "recommendation"
+                )
+            ),
+
+            image_path=str(
+                saved_image_path
+            ),
+
+            timestamp=timestamp,
+        )
+
+        print(
+            "HISTORICAL DATABASE SAVE SUCCESS:",
+            history_id,
+        )
+
+    except Exception as history_error:
+        # Database failure should NOT break
+        # the working AI analysis response.
+        print(
+            "HISTORICAL DATABASE ERROR:",
+            repr(history_error),
+        )
 
     # ========================================================
     # RESPONSE

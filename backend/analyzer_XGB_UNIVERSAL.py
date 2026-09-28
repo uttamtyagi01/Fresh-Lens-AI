@@ -4995,3 +4995,4 @@ def food_identification_message(food_name: str, confidence: float) -> str:
             f"({confidence:.1f}%)."
         )
     return f"The model identifies {food_name} with high confidence ({confidence:.1f}%)."
+

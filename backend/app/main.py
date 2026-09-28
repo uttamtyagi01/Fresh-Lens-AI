@@ -1,7 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.database import init_database
 from app.routes.analysis import router as analysis_router
+from app.routes.history import router as history_router
+from app.routes.weather import router as weather_router
+from app.routes.iot import router as iot_router
 
 
 app = FastAPI(
@@ -9,7 +13,7 @@ app = FastAPI(
     description="AI-powered food freshness analysis API",
     version="1.0.0",
 )
-
+init_database()
 
 # ============================================================
 # CORS
@@ -43,6 +47,16 @@ app.include_router(
     analysis_router,
     prefix="/api",
 )
+app.include_router(
+    history_router,
+    prefix="/api",
+)
+app.include_router(
+    weather_router, 
+    prefix="/api")
+app.include_router(
+    iot_router, 
+    prefix="/api")
 
 
 # ============================================================

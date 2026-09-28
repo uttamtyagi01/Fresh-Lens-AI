@@ -40,3 +40,25 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+
+# Large ML training dataset
+backend/ml_training/data/AgriFreshN*
+
+# FreshLens runtime data
+backend/data/uploads/
+backend/data/*.db
+
+# Backup / temporary project files
+backend/app/services/analyzer*backup*.py
+backend/app/services/analyzer_before_*.py
+frontend/src/pages/Scan_backup*.tsx
+frontend/src/pages/Scan_before_xgb_ui.pybackup
+backend/install_partial_features.py
+
+# Keep the active scanner
+!frontend/src/pages/Scan_Backup.tsx
+# Ignore the partial analyzer backup
+backend/app/services/analyzer.py.partial-backup
+
+# ML backup files
+backend/ml_training/*BACKUP*.py
